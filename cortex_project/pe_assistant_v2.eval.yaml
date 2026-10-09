@@ -1,0 +1,9 @@
+evaluation:
+  agent: PE_POC.AGENTS.PE_ASSISTANT
+  dataset_fqn: PE_POC.AGENTS.PE_ASSISTANT_EVAL_DATASET_V2
+
+metrics:
+  - answer_correctness
+  - logical_consistency
+  - tool_selection_accuracy
+  - tool_execution_accuracy

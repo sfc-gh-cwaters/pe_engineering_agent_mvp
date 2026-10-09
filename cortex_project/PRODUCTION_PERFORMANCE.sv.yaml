@@ -1,0 +1,221 @@
+name: PRODUCTION_PERFORMANCE
+description: Production performance analytics for the Volve oil field, combining daily
+  well production data (rates, pressures, water cut, GOR) with petrophysical reservoir
+  characterization (porosity, permeability, net-to-gross) to enable integrated production
+  engineering analysis.
+tables:
+  - name: PRODUCTION_DAILY
+    base_table:
+      database: PE_POC
+      schema: CURATED
+      table: PRODUCTION_DAILY
+    dimensions:
+      - name: WELLBORE_CODE
+        expr: WELLBORE_CODE
+        data_type: NUMBER
+      - name: WELLBORE_NAME
+        expr: WELLBORE_NAME
+        data_type: VARCHAR
+      - name: FIELD_NAME
+        expr: FIELD_NAME
+        data_type: VARCHAR
+      - name: FACILITY_NAME
+        expr: FACILITY_NAME
+        data_type: VARCHAR
+      - name: WELL_TYPE
+        expr: WELL_TYPE
+        data_type: VARCHAR
+      - name: FLOW_KIND
+        expr: FLOW_KIND
+        data_type: VARCHAR
+      - name: WELL_STATUS
+        expr: WELL_STATUS
+        data_type: VARCHAR
+    time_dimensions:
+      - name: PRODUCTION_DATE
+        expr: PRODUCTION_DATE
+        data_type: DATE
+    facts:
+      - name: ON_STREAM_HRS
+        expr: ON_STREAM_HRS
+        data_type: FLOAT
+      - name: AVG_CHOKE_PCT
+        expr: AVG_CHOKE_PCT
+        data_type: FLOAT
+      - name: AVG_DHP_BARA
+        expr: AVG_DHP_BARA
+        data_type: FLOAT
+      - name: AVG_WHP_BARA
+        expr: AVG_WHP_BARA
+        data_type: FLOAT
+      - name: AVG_ANNULUS_PRESS_BARA
+        expr: AVG_ANNULUS_PRESS_BARA
+        data_type: FLOAT
+      - name: DP_CHOKE_BARA
+        expr: DP_CHOKE_BARA
+        data_type: FLOAT
+      - name: AVG_DHT_DEGC
+        expr: AVG_DHT_DEGC
+        data_type: FLOAT
+      - name: AVG_WHT_DEGC
+        expr: AVG_WHT_DEGC
+        data_type: FLOAT
+      - name: OIL_VOL_SM3
+        expr: OIL_VOL_SM3
+        data_type: FLOAT
+      - name: GAS_VOL_SM3
+        expr: GAS_VOL_SM3
+        data_type: FLOAT
+      - name: WATER_VOL_SM3
+        expr: WATER_VOL_SM3
+        data_type: FLOAT
+      - name: WATER_INJ_VOL_SM3
+        expr: WATER_INJ_VOL_SM3
+        data_type: FLOAT
+      - name: WATER_CUT
+        expr: WATER_CUT
+        data_type: FLOAT
+      - name: GOR_SM3_SM3
+        expr: GOR_SM3_SM3
+        data_type: FLOAT
+      - name: DRAWDOWN_BARA
+        expr: DRAWDOWN_BARA
+        data_type: FLOAT
+  - name: PETROPHYSICS_LOGS_TABLE
+    base_table:
+      database: PE_POC
+      schema: CURATED
+      table: PETROPHYSICS_LOGS_TABLE
+    dimensions:
+      - name: WELLBORE_NAME
+        expr: WELLBORE_NAME
+        data_type: VARCHAR
+      - name: FIELD_NAME
+        expr: FIELD_NAME
+        data_type: VARCHAR
+      - name: NET_FLAG
+        expr: NET_FLAG
+        data_type: NUMBER
+    facts:
+      - name: MEASURED_DEPTH_M
+        expr: MEASURED_DEPTH_M
+        data_type: FLOAT
+      - name: POROSITY
+        expr: POROSITY
+        data_type: FLOAT
+      - name: WATER_SATURATION
+        expr: WATER_SATURATION
+        data_type: FLOAT
+      - name: SHALE_VOLUME
+        expr: SHALE_VOLUME
+        data_type: FLOAT
+      - name: PERMEABILITY_MD
+        expr: PERMEABILITY_MD
+        data_type: FLOAT
+      - name: BULK_VOLUME_WATER
+        expr: BULK_VOLUME_WATER
+        data_type: FLOAT
+      - name: CARBONATE_VOLUME
+        expr: CARBONATE_VOLUME
+        data_type: FLOAT
+      - name: COAL_FLAG
+        expr: COAL_FLAG
+        data_type: FLOAT
+      - name: SAND_FLAG
+        expr: SAND_FLAG
+        data_type: FLOAT
+      - name: CARB_FLAG
+        expr: CARB_FLAG
+        data_type: FLOAT
+      - name: HC_SATURATION
+        expr: HC_SATURATION
+        data_type: FLOAT
+  - name: PETROPHYSICS_WELL_SUMMARY_TABLE
+    base_table:
+      database: PE_POC
+      schema: CURATED
+      table: PETROPHYSICS_WELL_SUMMARY_TABLE
+    primary_key:
+      columns:
+        - WELLBORE_NAME
+    dimensions:
+      - name: WELLBORE_NAME
+        expr: WELLBORE_NAME
+        data_type: VARCHAR
+      - name: TOTAL_SAMPLES
+        expr: TOTAL_SAMPLES
+        data_type: NUMBER
+      - name: NET_SAMPLES
+        expr: NET_SAMPLES
+        data_type: NUMBER
+    facts:
+      - name: NET_TO_GROSS
+        expr: NET_TO_GROSS
+        data_type: FLOAT
+      - name: MIN_DEPTH_M
+        expr: MIN_DEPTH_M
+        data_type: FLOAT
+      - name: MAX_DEPTH_M
+        expr: MAX_DEPTH_M
+        data_type: FLOAT
+      - name: AVG_POROSITY_NET
+        expr: AVG_POROSITY_NET
+        data_type: FLOAT
+      - name: AVG_SW_NET
+        expr: AVG_SW_NET
+        data_type: FLOAT
+      - name: AVG_VSH_NET
+        expr: AVG_VSH_NET
+        data_type: FLOAT
+      - name: AVG_PERM_NET_MD
+        expr: AVG_PERM_NET_MD
+        data_type: FLOAT
+      - name: MAX_PERM_NET_MD
+        expr: MAX_PERM_NET_MD
+        data_type: FLOAT
+      - name: AVG_HC_SAT_NET
+        expr: AVG_HC_SAT_NET
+        data_type: FLOAT
+relationships:
+  - name: PRODUCTION_DAILY_TO_PETROPHYSICS_WELL_SUMMARY_TABLE
+    left_table: PRODUCTION_DAILY
+    right_table: PETROPHYSICS_WELL_SUMMARY_TABLE
+    join_type: inner
+    relationship_type: many_to_one
+    relationship_columns:
+      - left_column: WELLBORE_NAME
+        right_column: WELLBORE_NAME
+verified_queries:
+  - name: 0;1
+    question: What is the daily oil, gas, and water production by well over time for
+      wells that are producing oil?
+    sql: SELECT WELLBORE_NAME, PRODUCTION_DATE, OIL_VOL_SM3, GAS_VOL_SM3, WATER_VOL_SM3,
+      WATER_CUT, GOR_SM3_SM3 FROM production_daily WHERE OIL_VOL_SM3 > 0 ORDER BY
+      PRODUCTION_DATE
+    verified_at: 1783145057
+    verified_by: Semantic Model Generator
+  - name: 1;1
+    question: How does cumulative production correlate with reservoir properties like
+      porosity and permeability?
+    sql: SELECT p.WELLBORE_NAME, SUM(p.OIL_VOL_SM3) AS TOTAL_OIL, SUM(p.WATER_VOL_SM3)
+      AS TOTAL_WATER, AVG(p.WATER_CUT) AS AVG_WATER_CUT, s.AVG_POROSITY_NET, s.AVG_PERM_NET_MD,
+      s.NET_TO_GROSS FROM production_daily AS p JOIN petrophysics_well_summary_table
+      AS s ON p.WELLBORE_NAME = s.WELLBORE_NAME GROUP BY p.WELLBORE_NAME, s.AVG_POROSITY_NET,
+      s.AVG_PERM_NET_MD, s.NET_TO_GROSS
+    verified_at: 1783145057
+    verified_by: Semantic Model Generator
+  - name: 2;1
+    question: What is the pressure drawdown trend and its relationship to oil production
+      rate across all wells over time?
+    sql: SELECT WELLBORE_NAME, PRODUCTION_DATE, AVG_DHP_BARA, AVG_WHP_BARA, DRAWDOWN_BARA,
+      OIL_VOL_SM3 FROM production_daily WHERE NOT AVG_DHP_BARA IS NULL ORDER BY WELLBORE_NAME,
+      PRODUCTION_DATE
+    verified_at: 1783145057
+    verified_by: Semantic Model Generator
+  - name: 3;1
+    question: What is the average production performance for each producing well?
+    sql: SELECT WELLBORE_NAME, AVG(OIL_VOL_SM3) AS AVG_DAILY_OIL, AVG(WATER_CUT) AS
+      AVG_WATER_CUT, AVG(GOR_SM3_SM3) AS AVG_GOR, COUNT(*) AS PRODUCING_DAYS FROM
+      production_daily WHERE WELL_STATUS = 'PRODUCING' GROUP BY WELLBORE_NAME
+    verified_at: 1783145057
+    verified_by: Semantic Model Generator

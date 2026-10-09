@@ -1,0 +1,78 @@
+version: 1
+artifacts:
+  - path: PRODUCTION_PERFORMANCE.sv.yaml
+    type: semantic_view
+    targets:
+      default:
+        object: PE_POC.CURATED.PRODUCTION_PERFORMANCE
+  - path: PE_ASSISTANT.agent.yaml
+    type: cortex_agent
+    targets:
+      default:
+        object: PE_POC.AGENTS.PE_ASSISTANT
+  - path: pe_assistant_baseline.eval.yaml
+    type: eval_config
+    targets: {}
+  - path: pe_assistant_baseline.dataset.yaml
+    type: eval_dataset
+    targets: {}
+  - path: pe_assistant_baseline.resolved.yaml
+    type: eval_resolved
+    targets:
+      default:
+        object: PE_POC.AGENTS.EVAL_CONFIG_STAGE/cortex_project/pe_assistant_baseline.resolved.yaml
+  - path: pe_assistant_v2.eval.yaml
+    type: eval_config
+    targets: {}
+  - path: pe_assistant_v2.dataset.yaml
+    type: eval_dataset
+    targets: {}
+  - path: pe_assistant_v2.resolved.yaml
+    type: eval_resolved
+    targets:
+      default:
+        object: PE_POC.AGENTS.EVAL_CONFIG_STAGE/cortex_project/pe_assistant_v2.resolved.yaml
+  - path: pe_assistant_v3.eval.yaml
+    type: eval_config
+    targets: {}
+  - path: pe_assistant_v3.dataset.yaml
+    type: eval_dataset
+    targets: {}
+  - path: pe_assistant_v3.resolved.yaml
+    type: eval_resolved
+    targets:
+      default:
+        object: PE_POC.AGENTS.EVAL_CONFIG_STAGE/cortex_project/pe_assistant_v3.resolved.yaml
+  - path: pe_assistant_v4.eval.yaml
+    type: eval_config
+    targets: {}
+  - path: pe_assistant_v4.dataset.yaml
+    type: eval_dataset
+    targets: {}
+  - path: pe_assistant_v4.resolved.yaml
+    type: eval_resolved
+    targets:
+      default:
+        object: PE_POC.AGENTS.EVAL_CONFIG_STAGE/cortex_project/pe_assistant_v4.resolved.yaml
+  - path: pe_assistant_v5.eval.yaml
+    type: eval_config
+    targets: {}
+  - path: pe_assistant_v5.dataset.yaml
+    type: eval_dataset
+    targets: {}
+  - path: pe_assistant_v5.resolved.yaml
+    type: eval_resolved
+    targets:
+      default:
+        object: PE_POC.AGENTS.EVAL_CONFIG_STAGE/cortex_project/pe_assistant_v5.resolved.yaml
+  - path: pe_assistant_v6.eval.yaml
+    type: eval_config
+    targets: {}
+  - path: pe_assistant_v6.dataset.yaml
+    type: eval_dataset
+    targets: {}
+  - path: pe_assistant_v6.resolved.yaml
+    type: eval_resolved
+    targets:
+      default:
+        object: PE_POC.AGENTS.EVAL_CONFIG_STAGE/cortex_project/pe_assistant_v6.resolved.yaml

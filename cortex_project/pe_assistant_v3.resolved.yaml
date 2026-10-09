@@ -1,0 +1,12 @@
+evaluation:
+  agent_params:
+    agent_name: PE_POC.AGENTS.PE_ASSISTANT
+    agent_type: CORTEX AGENT
+  source_metadata:
+    type: dataset
+    dataset_name: PE_POC.AGENTS.PE_ASSISTANT_EVAL_DATASET_V3
+metrics:
+  - answer_correctness
+  - logical_consistency
+  - tool_selection_accuracy
+  - tool_execution_accuracy
